@@ -6,6 +6,7 @@ use App\Models\File;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class StoreFolderRequest extends ParentIdBaseRequest
 {
@@ -16,14 +17,17 @@ class StoreFolderRequest extends ParentIdBaseRequest
      */
     public function rules(): array
     {
+        $output = new ConsoleOutput();
+        $output->writeln('This' . $this->parent_id);
+
         return array_merge(parent::rules(),
             [
                 'name' => [
-                            'required',
-                            Rule::unique(File::class, 'name')
-                                    ->where('created_at', Auth::id())
-                                    ->where('parent_id', $this->parent_id)
-                                    ->whereNull('deleted_at', )
+                    'required',
+                    Rule::unique(File::class, 'name')
+                        ->where('created_by', Auth::id())
+//                        ->where('parent_id', $this->parent_id)
+                        ->whereNull('deleted_at')
                 ]
             ]
         );
