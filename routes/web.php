@@ -32,6 +32,7 @@ Route::controller(\App\Http\Controllers\FileController::class)
             ->name('myFiles');
         Route::post('/folder/create', 'createFolder')->name('folder.create');
         Route::post('file', 'store')->name('file.store');
+        Route::delete('/file', 'destroy')->name('file.destroy');
 });
 
 Route::get('/dashboard', function () {

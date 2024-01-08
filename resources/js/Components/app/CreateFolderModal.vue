@@ -34,7 +34,6 @@ function onShow() {
 }
 function createFolder(){
     form.parent_id = page.props.folder.id
-    console.log(form.parent_id);
     form.post(route('folder.create'), {
         preserveScroll: true,
         onSuccess: () => {
