@@ -1,36 +1,34 @@
 <script setup>
 
-import ConfirmationDialog from "@/Components/app/ConfirmationDialog.vue";
-import {ref} from "vue";
 import {useForm, usePage} from "@inertiajs/vue3";
+import {ref} from "vue";
+import ConfirmationDialog from "@/Components/app/ConfirmationDialog.vue";
 import {showErrorDialog} from "@/even-bus.js";
 
 const page = usePage();
-
 const deleteFilesForm = useForm({
     all: null,
     ids: [],
     parent_id: null
 })
 
+const showDeleteDialog = ref(false)
+
 const props = defineProps({
-    deleteAll: { // Count id (3)
+    deleteAll: {
         type: Boolean,
         required: false,
         default: false
     },
-    deleteIds:{ // Id ['1', '2', '3']
+    deleteIds:{
         type: Array,
         required: false
     }
 })
 const emit = defineEmits(['delete'])
 
-const showDeleteDialog = ref(false)
-
-
 function onDeleteClick() {
-    if(!props.deleteAll && !props.deleteIds.length){ // If you not select any file to delete when you click the delete button
+    if (!props.deleteAll && !props.deleteIds.length) {
         showErrorDialog('Please select at least one file to delete')
         return
     }
@@ -42,12 +40,14 @@ function onDeleteCancel() {
 }
 
 function onDeleteConfirm(){
-    deleteFilesForm.parent_id = page.props.folder.id;
+    deleteFilesForm.parent_id = page.props.folder.id
     if (props.deleteAll) {
         deleteFilesForm.all = true
     } else {
         deleteFilesForm.ids = props.deleteIds
     }
+
+    console.log(deleteFilesForm);
 
     deleteFilesForm.delete(route('file.destroy'), {
         onSuccess: () => {
@@ -55,7 +55,8 @@ function onDeleteConfirm(){
             emit('delete')
         }
     })
-    console.log('Delete', props.deleteAll, props.deleteIds);
+
+    console.log("Delete", props.deleteAll, props.deleteIds);
 }
 
 </script>
@@ -74,7 +75,8 @@ function onDeleteConfirm(){
                         @confirm="onDeleteConfirm">
     </ConfirmationDialog>
 </template>
-
 <style scoped>
 
 </style>
+
+

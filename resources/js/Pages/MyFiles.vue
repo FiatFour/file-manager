@@ -137,9 +137,10 @@ onMounted(() => {
             </ol>
 
             <div>
-                <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete"/>
+                <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds"/>
             </div>
         </nav>
+        <pre>{{selected}}</pre>
         <div class="flex-1 overflow-auto">
             <table class="min-w-full">
                 <thead>
